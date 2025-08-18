@@ -41,7 +41,7 @@ matplotlib==3.8.2  # Для графиков в админке
 
 # Security
 cryptography==41.0.7
-secrets  # Встроен в Python
+# secrets  # Встроен в Python
 
 # Optional: Production
 gunicorn==21.2.0
