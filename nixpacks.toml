@@ -12,8 +12,7 @@ nixPkgs = [
   "python311Packages.wheel",
   "gcc",
   "pkg-config",
-  "portaudio",  # оставьте только если у вас в requirements есть pyaudio
-  "ffmpeg",
+  "ffmpeg",               # "portaudio",  # оставьте только если у вас в requirements есть pyaudio ,
   "openssl"
 ]
 
