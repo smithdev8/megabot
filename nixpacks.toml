@@ -4,25 +4,27 @@ providers = ["python"]
 version = "3.11"
 
 [phases.setup]
-# системные библиотеки (минимально нужное под ваш стек)
+# Гарантируем наличие интерпретатора и системных либ
 nixPkgs = [
+  "python311",  # <— ставим сам Python 3.11 в образ
   "gcc",
   "pkg-config",
-  "portaudio",  # для pyaudio; если pyaudio уберёте — строку тоже можно убрать
-  "ffmpeg",     # для pydub (gTTS/аудио)
+  "portaudio",  # если оставляете pyaudio; иначе уберите
+  "ffmpeg",     # для pydub
   "openssl"
 ]
 
 [phases.install]
 cmds = [
-  # Диагностика (увидим версию питона и SSL)
-  "python -V",
-  "python -c 'import ssl; print(\"SSL OK\", ssl.OPENSSL_VERSION)'",
+  # Диагностика: проверим, что Python есть и SSL работает
+  "python3 -V",
+  "python3 -c 'import ssl; print(\"SSL OK\", ssl.OPENSSL_VERSION)'",
+
   # Апдейт инструментов сборки
-  "python -m pip install --upgrade pip setuptools wheel",
-  "pip --version",
-  # Ставим pyOpenSSL заранее, если кто-то импортит его в setup.py
-  "pip install --no-cache-dir pyOpenSSL",
-  # Побольше логов, чтобы видеть точный пакет, на котором падает
-  "pip install --no-cache-dir -v -r requirements.txt"
+  "python3 -m pip install --upgrade pip setuptools wheel",
+  # Ставим заранее OpenSSL биндинги — некоторые пакеты импортят их в setup.py
+  "python3 -m pip install --no-cache-dir pyOpenSSL",
+
+  # Ставим зависимости проекта (с подробным логом)
+  "python3 -m pip install --no-cache-dir -v -r requirements.txt"
 ]
