@@ -22,7 +22,7 @@ reportlab==4.0.7
 Pillow==10.1.0  # Работа с изображениями
 
 # Database
-sqlite3  # Встроен в Python
+# sqlite3  # Встроен в Python
 pandas==2.1.4  # Для аналитики
 
 # Utils
