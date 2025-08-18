@@ -4,27 +4,31 @@ providers = ["python"]
 version = "3.11"
 
 [phases.setup]
-# Гарантируем наличие интерпретатора и системных либ
+# Ставим сам Python + pip/setuptools/wheel из nixpkgs, и системные либы
 nixPkgs = [
-  "python311",  # <— ставим сам Python 3.11 в образ
+  "python311",
+  "python311Packages.pip",
+  "python311Packages.setuptools",
+  "python311Packages.wheel",
   "gcc",
   "pkg-config",
-  "portaudio",  # если оставляете pyaudio; иначе уберите
-  "ffmpeg",     # для pydub
+  "portaudio",  # если pyaudio всё ещё в requirements; иначе уберите
+  "ffmpeg",
   "openssl"
 ]
 
 [phases.install]
 cmds = [
-  # Диагностика: проверим, что Python есть и SSL работает
   "python3 -V",
   "python3 -c 'import ssl; print(\"SSL OK\", ssl.OPENSSL_VERSION)'",
 
-  # Апдейт инструментов сборки
-  "python3 -m pip install --upgrade pip setuptools wheel",
-  # Ставим заранее OpenSSL биндинги — некоторые пакеты импортят их в setup.py
-  "python3 -m pip install --no-cache-dir pyOpenSSL",
+  # теперь pip точно есть
+  "pip3 --version",
+  "pip3 install --upgrade pip setuptools wheel",
 
-  # Ставим зависимости проекта (с подробным логом)
-  "python3 -m pip install --no-cache-dir -v -r requirements.txt"
+  # ставим заранее биндинги OpenSSL (нек-рые пакеты импортят их в setup.py)
+  "pip3 install --no-cache-dir pyOpenSSL",
+
+  # устанавливаем зависимости проекта с подробным логом
+  "pip3 install --no-cache-dir -v -r requirements.txt"
 ]
