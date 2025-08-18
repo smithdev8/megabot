@@ -10,7 +10,7 @@ openai==1.6.1  # Для изображений и голоса
 SpeechRecognition==3.10.1  # Распознавание речи
 gtts==2.5.0  # Text-to-Speech
 pydub==0.25.1  # Аудио конвертация
-pyaudio==0.2.13  # Аудио обработка
+# pyaudio==0.2.13  # Аудио обработка
 
 # Web Admin Panel
 Flask==3.0.0
