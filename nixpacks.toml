@@ -1,0 +1,21 @@
+providers = ["python"]
+
+[python]
+version = "3.11"  # можно опустить, если уже задали NIXPACKS_PYTHON_VERSION=3.11
+
+[phases.setup]
+# системные пакеты из nixpkgs
+nixPkgs = [
+  "gcc",
+  "pkg-config",
+  "portaudio",  # для pyaudio; уберите, если pyaudio не нужен на сервере
+  "ffmpeg",     # для pydub
+  "openssl"     # требуется pyOpenSSL и/или пакеты, которые его импортируют в setup
+]
+
+[phases.install]
+cmds = [
+  "python -m pip install --upgrade pip setuptools wheel",
+  "pip install --no-cache-dir pyOpenSSL",          # ставим раньше, т.к. кто-то импортит OpenSSL в setup.py
+  "pip install --no-cache-dir -r requirements.txt"
+]
