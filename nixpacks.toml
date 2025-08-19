@@ -40,4 +40,5 @@ cmds = [
 
 # Укажите свой entrypoint; пример — если у вас app.py
 [start]
-cmd = "/app/.venv/bin/python app.py"
+cmd = "/app/.venv/bin/python -m pip show python-telegram-bot && /app/.venv/bin/python -c 'import sys,telegram; print(\"PTB:\", telegram.__version__, \"python:\", sys.executable)' && /app/.venv/bin/python app.py"
+
